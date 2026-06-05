@@ -8,16 +8,16 @@ const makeUser = (username: string): User => ({ username, password: PASSWORD });
 
 export const standardUser: User = makeUser("standard_user");
 export const lockedOutUser: User = makeUser("locked_out_user");
-export const problem_user: User = makeUser("problem_user");
-export const performance_glitch_user: User = makeUser("performance_glitch_user");
+export const problemUser: User = makeUser("problem_user");
+export const performanceGlitchUser: User = makeUser("performance_glitch_user");
 export const errorUser: User = makeUser("error_user");
 export const visualUser: User = makeUser("visual_user");
 
 export const users: User[] = [
   standardUser,
   lockedOutUser,
-  problem_user,
-  performance_glitch_user,
+  problemUser,
+  performanceGlitchUser,
   errorUser,
   visualUser,
 ]
