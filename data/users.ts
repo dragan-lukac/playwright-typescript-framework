@@ -12,8 +12,3 @@ export const problemUser: User = makeUser("problem_user");
 export const performanceGlitchUser: User = makeUser("performance_glitch_user");
 export const errorUser: User = makeUser("error_user");
 export const visualUser: User = makeUser("visual_user");
-
-export const standardUser2: User = {
-  username: '',
-  password: ''
-}

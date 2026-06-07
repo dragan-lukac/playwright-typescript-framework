@@ -24,7 +24,7 @@ export class LoginPage {
         await this.page.getByRole('button', {name: 'Login'}).click();
     }
 
-    async login(user: User): Promise<void> {
+    async login(user: User) {
         await this.goto();
         await this.fillUsername(user.username);
         await this.fillPassword(user.password);
