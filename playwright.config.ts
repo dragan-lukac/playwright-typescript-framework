@@ -1,13 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
-import path from 'path';
+import { loadEnv } from './config/env';
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-
-const ENV = process.env.ENV ?? 'dev'
-dotenv.config({ path: path.resolve(__dirname, `.env/.env.${ENV}`) });
+loadEnv();
 
 export default defineConfig({
   testDir: './tests',
