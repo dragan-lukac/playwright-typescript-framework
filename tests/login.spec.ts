@@ -1,12 +1,9 @@
-import {test} from "@playwright/test";
+import {test} from "../fixture/fixtures";
 import { LoginPage } from "../page/LoginPage";
 import { InventoryPage } from "../page/InventoryPage";
 import {standardUser} from "../data/users"
 
-test('Successful login', async ({page}) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-
+test('Successful login', async ({loginPage, inventoryPage}) => {
     await loginPage.login(standardUser);
     await inventoryPage.assertOnInventoryPage();
 })
