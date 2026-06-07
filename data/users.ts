@@ -3,7 +3,7 @@ export interface User {
   password: string;
 }
 
-const PASSWORD = "secret_sauce";
+const PASSWORD = process.env.SAUCEDEMO_PASSWORD!;
 const makeUser = (username: string): User => ({ username, password: PASSWORD });
 
 export const standardUser: User = makeUser("standard_user");
