@@ -1,6 +1,4 @@
-import {test} from "../fixture/fixtures";
-import { LoginPage } from "../page/LoginPage";
-import { InventoryPage } from "../page/InventoryPage";
+import {test} from "../fixtures/fixtures";
 import {standardUser} from "../data/users"
 
 test('Successful login', async ({loginPage, inventoryPage}) => {
