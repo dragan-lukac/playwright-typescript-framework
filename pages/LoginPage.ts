@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { User } from '../data/users';
+import { User } from '../data/Users';
 
 export class LoginPage {
     private readonly page: Page;
