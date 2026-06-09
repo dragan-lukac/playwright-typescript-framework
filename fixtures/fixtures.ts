@@ -1,22 +1,32 @@
 import {test as base} from '@playwright/test'
+import { CartPage } from '../pages/CartPage'
+import { CheckoutPage } from '../pages/CheckoutPage'
 import { InventoryPage } from '../pages/InventoryPage'
 import { LoginPage } from '../pages/LoginPage'
 
 type Fixtures = {
     loginPage: LoginPage;
     inventoryPage: InventoryPage;
+    cartPage: CartPage;
+    checkoutPage: CheckoutPage;
 }
 
 export const test = base.extend<Fixtures>({
-    loginPage: async({page}, use) => {
-        const loginPage = new LoginPage(page);
-        await use(loginPage);
+    loginPage: async ({page}, use) => {
+        await use(new LoginPage(page));
     },
 
     inventoryPage: async ({page}, use) => {
-        const inventoryPage = new InventoryPage(page);
-        await use(inventoryPage);
-    }
+        await use(new InventoryPage(page));
+    },
+
+    cartPage: async ({page}, use) => {
+        await use(new CartPage(page));
+    },
+
+    checkoutPage: async ({page}, use) => {
+        await use(new CheckoutPage(page));
+    },
 });
 
 export {expect} from '@playwright/test'
