@@ -1,5 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
-import { Activity } from '../data/apiTypes';
+import { Activity } from '../data/Activity';
 
 export class ActivityClient {
   constructor(private readonly request: APIRequestContext) {}

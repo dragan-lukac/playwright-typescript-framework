@@ -1,4 +1,4 @@
-import { test } from '../fixtures/fixtures';
+import { test } from '../../fixtures/fixtures';
 
 test.describe('Cart Tests', () => {
     test('Navigate to cart page', async ({ cartPage }) => {

@@ -6,7 +6,7 @@ export interface User {
 const PASSWORD = process.env.SAUCEDEMO_PASSWORD!;
 const makeUser = (username: string): User => ({ username, password: PASSWORD });
 
-export const standardUser: User = makeUser("standard_user");
+export const standardUser: User = {username: 'standard_user', password: PASSWORD};
 export const lockedOutUser: User = makeUser("locked_out_user");
 export const problemUser: User = makeUser("problem_user");
 export const performanceGlitchUser: User = makeUser("performance_glitch_user");

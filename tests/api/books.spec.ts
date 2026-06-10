@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures/apiFixtures';
-import { Book } from '../../data/apiTypes';
+import { Book, newBook, updatedBook } from '../../data/Book';
 
 test.describe('Books API', () => {
   test('GET /books returns a non-empty list', async ({ bookClient }) => {
@@ -27,43 +27,26 @@ test.describe('Books API', () => {
   });
 
   test('POST /books creates a new book', async ({ bookClient }) => {
-    const payload: Omit<Book, 'id'> = {
-      title: 'Test Book',
-      description: 'A test book description',
-      pageCount: 100,
-      excerpt: 'Test excerpt',
-      publishDate: '2025-01-01T00:00:00.000Z',
-    };
-
-    const response = await bookClient.createBook(payload);
+    const response = await bookClient.createBook(newBook);
 
     expect(response.status()).toBe(200);
     const body: Book = await response.json();
     expect(body).toMatchObject({
       id: expect.any(Number),
-      title: payload.title,
-      pageCount: payload.pageCount,
+      title: newBook.title,
+      pageCount: newBook.pageCount,
     });
   });
 
   test('PUT /books/:id updates a book', async ({ bookClient }) => {
-    const updated: Book = {
-      id: 1,
-      title: 'Updated Book',
-      description: 'Updated description',
-      pageCount: 250,
-      excerpt: 'Updated excerpt',
-      publishDate: '2025-06-01T00:00:00.000Z',
-    };
-
-    const response = await bookClient.updateBook(1, updated);
+    const response = await bookClient.updateBook(updatedBook.id, updatedBook);
 
     expect(response.status()).toBe(200);
     const body: Book = await response.json();
     expect(body).toMatchObject({
-      id: 1,
-      title: 'Updated Book',
-      pageCount: 250,
+      id: updatedBook.id,
+      title: updatedBook.title,
+      pageCount: updatedBook.pageCount,
     });
   });
 

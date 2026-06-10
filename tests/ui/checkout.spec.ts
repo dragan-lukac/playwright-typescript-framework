@@ -1,4 +1,4 @@
-import { test } from '../fixtures/fixtures';
+import { test } from '../../fixtures/fixtures';
 
 test.describe('Checkout Tests', () => {
     test('Complete checkout flow', async ({ inventoryPage, cartPage, checkoutPage }) => {

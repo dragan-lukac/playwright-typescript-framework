@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures/apiFixtures';
-import { Activity } from '../../data/apiTypes';
+import { Activity, newActivity, updatedActivity } from '../../data/Activity';
 
 test.describe('Activities API', () => {
   test('GET /activities returns a non-empty list', async ({ activityClient }) => {
@@ -25,39 +25,26 @@ test.describe('Activities API', () => {
   });
 
   test('POST /activities creates a new activity', async ({ activityClient }) => {
-    const payload: Omit<Activity, 'id'> = {
-      title: 'Test Activity',
-      dueDate: '2025-01-01T00:00:00.000Z',
-      completed: false,
-    };
-
-    const response = await activityClient.createActivity(payload);
+    const response = await activityClient.createActivity(newActivity);
 
     expect(response.status()).toBe(200);
     const body: Activity = await response.json();
     expect(body).toMatchObject({
       id: expect.any(Number),
-      title: payload.title,
-      completed: payload.completed,
+      title: newActivity.title,
+      completed: newActivity.completed,
     });
   });
 
   test('PUT /activities/:id updates an activity', async ({ activityClient }) => {
-    const updated: Activity = {
-      id: 1,
-      title: 'Updated Activity',
-      dueDate: '2025-06-01T00:00:00.000Z',
-      completed: true,
-    };
-
-    const response = await activityClient.updateActivity(1, updated);
+    const response = await activityClient.updateActivity(updatedActivity.id, updatedActivity);
 
     expect(response.status()).toBe(200);
     const body: Activity = await response.json();
     expect(body).toMatchObject({
-      id: 1,
-      title: 'Updated Activity',
-      completed: true,
+      id: updatedActivity.id,
+      title: updatedActivity.title,
+      completed: updatedActivity.completed,
     });
   });
 

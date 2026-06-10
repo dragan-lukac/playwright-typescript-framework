@@ -1,5 +1,5 @@
-import { test } from "../fixtures/fixtures";
-import { standardUser } from "../data/Users"
+import { test } from "../../fixtures/fixtures";
+import { standardUser } from "../../data/Users"
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
