@@ -30,20 +30,43 @@ cp .env/.env.dev.example .env/.env.dev
 ## Running tests
 
 ```bash
-# Run full suite (dev environment)
-npx playwright test
+# Run full suite (clears allure-results, runs all tests)
+npm test
+
+# Run UI tests only
+npm run test:ui
+
+# Run API tests only
+npm run test:api
 
 # Run against a different environment
-ENV=qa npx playwright test
+ENV=qa npm test
+```
 
-# Run a specific file
-npx playwright test tests/inventory.spec.ts
+## Allure report
 
-# Run tests matching a name pattern
-npx playwright test --grep "Sort"
+```bash
+# Generate and open report from last test run
+npm run report
+```
 
-# Open the HTML report after a run
-npx playwright show-report
+Opens a local server — navigate to the printed URL in your browser.
+
+## Docker
+
+```bash
+# Run full suite in Docker (defaults to dev environment)
+npm run docker
+
+# Run against a different environment
+ENV=qa npm run docker
+```
+
+After the run, fix file ownership then open the report locally:
+
+```bash
+sudo chown -R $USER:$USER allure-results allure-report
+npm run report
 ```
 
 ## Project structure
