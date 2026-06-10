@@ -1,4 +1,4 @@
-import { test } from "../../fixtures/fixtures";
+import { test } from "../../fixtures/uiFixtures";
 import { standardUser } from "../../data/Users"
 
 test.use({ storageState: { cookies: [], origins: [] } });

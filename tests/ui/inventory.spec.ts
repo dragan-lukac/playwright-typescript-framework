@@ -1,5 +1,5 @@
 import { SortType } from "../../data/SortType";
-import { test } from "../../fixtures/fixtures";
+import { test } from "../../fixtures/uiFixtures";
 
 test.describe('Inventory Page Tests', () => {
     test('Navigate authenticated', async ({ inventoryPage }) => {

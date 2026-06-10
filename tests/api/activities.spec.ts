@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/apiFixtures';
+import { test, expect } from '../../fixtures/baseApiFixtures';
 import { Activity, newActivity, updatedActivity } from '../../data/Activity';
 
 test.describe('Activities API', () => {
@@ -27,16 +27,16 @@ test.describe('Activities API', () => {
     });
   });
 
-  test('PUT /activities/:id updates an activity', async ({ activityService }) => {
-    const activity: Activity = await activityService.updateActivity(updatedActivity.id, updatedActivity);
+  test('PUT /activities/:id updates an activity', async ({ activityService, createdActivity }) => {
+    const activity: Activity = await activityService.updateActivity(createdActivity.id, { ...updatedActivity, id: createdActivity.id });
     expect(activity).toMatchObject({
-      id: updatedActivity.id,
+      id: createdActivity.id,
       title: updatedActivity.title,
       completed: updatedActivity.completed,
     });
   });
 
-  test('DELETE /activities/:id deletes successfully', async ({ activityService }) => {
-    await activityService.deleteActivity(1);
+  test('DELETE /activities/:id deletes successfully', async ({ activityService, createdActivity }) => {
+    await activityService.deleteActivity(createdActivity.id);
   });
 });

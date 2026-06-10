@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/apiFixtures';
+import { test, expect } from '../../fixtures/baseApiFixtures';
 import { Book, newBook, updatedBook } from '../../data/Book';
 
 test.describe('Books API', () => {
@@ -29,16 +29,16 @@ test.describe('Books API', () => {
     });
   });
 
-  test('PUT /books/:id updates a book', async ({ bookService }) => {
-    const book: Book = await bookService.updateBook(updatedBook.id, updatedBook);
+  test('PUT /books/:id updates a book', async ({ bookService, createdBook }) => {
+    const book: Book = await bookService.updateBook(createdBook.id, { ...updatedBook, id: createdBook.id });
     expect(book).toMatchObject({
-      id: updatedBook.id,
+      id: createdBook.id,
       title: updatedBook.title,
       pageCount: updatedBook.pageCount,
     });
   });
 
-  test('DELETE /books/:id deletes successfully', async ({ bookService }) => {
-    await bookService.deleteBook(1);
+  test('DELETE /books/:id deletes successfully', async ({ bookService, createdBook }) => {
+    await bookService.deleteBook(createdBook.id);
   });
 });
