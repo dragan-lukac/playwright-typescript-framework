@@ -1,0 +1,21 @@
+services:
+  tests:
+    build: .
+    command: npm run test:docker
+    environment:
+      - ENV=${ENV:-dev}
+      - BASE_URL=${BASE_URL}
+      - SAUCEDEMO_PASSWORD=${SAUCEDEMO_PASSWORD}
+      - API_BASE_URL=${API_BASE_URL}
+    volumes:
+      - ./allure-results:/app/allure-results
+
+  report:
+    build: .
+    command: npm run report:docker
+    depends_on:
+      tests:
+        condition: service_completed_successfully
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report

@@ -1,0 +1,12 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.auth/
+.env/*
+logs/
+allure-results/
+allure-report/
+Dockerfile
+docker-compose.yml

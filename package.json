@@ -7,7 +7,10 @@
     "test": "rm -rf allure-results && npx playwright test",
     "test:ui": "rm -rf allure-results && npx playwright test --project=chromium",
     "test:api": "rm -rf allure-results && npx playwright test --project=api",
-    "report": "rm -rf allure-report && npx allure generate ./allure-results --output ./allure-report && npx allure open ./allure-report"
+    "test:docker": "npx playwright test",
+    "docker": "docker compose --env-file .env/.env.dev up --build",
+    "report": "rm -rf allure-report && npx allure generate ./allure-results --output ./allure-report && npx allure open ./allure-report",
+    "report:docker": "npx allure generate ./allure-results --output ./allure-report"
   },
   "keywords": [],
   "author": "",
