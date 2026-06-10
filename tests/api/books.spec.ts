@@ -3,13 +3,13 @@ import { Book, newBook, updatedBook } from '../../data/Book';
 
 test.describe('Books API', () => {
   test('GET /books returns a non-empty list', async ({ bookService }) => {
-    const books = await bookService.getBooks();
+    const books: Book[] = await bookService.getBooks();
     expect(Array.isArray(books)).toBe(true);
     expect(books.length).toBeGreaterThan(0);
   });
 
   test('GET /books/:id returns correct shape', async ({ bookService }) => {
-    const book = await bookService.getBook(1);
+    const book: Book = await bookService.getBook(1);
     expect(book).toMatchObject({
       id: 1,
       title: expect.any(String),
@@ -21,7 +21,7 @@ test.describe('Books API', () => {
   });
 
   test('POST /books creates a new book', async ({ bookService }) => {
-    const book = await bookService.createBook(newBook);
+    const book: Book = await bookService.createBook(newBook);
     expect(book).toMatchObject({
       id: expect.any(Number),
       title: newBook.title,
@@ -30,7 +30,7 @@ test.describe('Books API', () => {
   });
 
   test('PUT /books/:id updates a book', async ({ bookService }) => {
-    const book = await bookService.updateBook(updatedBook.id, updatedBook);
+    const book: Book = await bookService.updateBook(updatedBook.id, updatedBook);
     expect(book).toMatchObject({
       id: updatedBook.id,
       title: updatedBook.title,

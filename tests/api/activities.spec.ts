@@ -3,13 +3,13 @@ import { Activity, newActivity, updatedActivity } from '../../data/Activity';
 
 test.describe('Activities API', () => {
   test('GET /activities returns a non-empty list', async ({ activityService }) => {
-    const activities = await activityService.getActivities();
+    const activities: Activity[] = await activityService.getActivities();
     expect(Array.isArray(activities)).toBe(true);
     expect(activities.length).toBeGreaterThan(0);
   });
 
   test('GET /activities/:id returns correct shape', async ({ activityService }) => {
-    const activity = await activityService.getActivity(1);
+    const activity: Activity = await activityService.getActivity(1);
     expect(activity).toMatchObject({
       id: 1,
       title: expect.any(String),
@@ -19,7 +19,7 @@ test.describe('Activities API', () => {
   });
 
   test('POST /activities creates a new activity', async ({ activityService }) => {
-    const activity = await activityService.createActivity(newActivity);
+    const activity: Activity = await activityService.createActivity(newActivity);
     expect(activity).toMatchObject({
       id: expect.any(Number),
       title: newActivity.title,
@@ -28,7 +28,7 @@ test.describe('Activities API', () => {
   });
 
   test('PUT /activities/:id updates an activity', async ({ activityService }) => {
-    const activity = await activityService.updateActivity(updatedActivity.id, updatedActivity);
+    const activity: Activity = await activityService.updateActivity(updatedActivity.id, updatedActivity);
     expect(activity).toMatchObject({
       id: updatedActivity.id,
       title: updatedActivity.title,
