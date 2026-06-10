@@ -1,4 +1,4 @@
-import { APIRequestContext, APIResponse } from '@playwright/test';
+import { APIRequestContext, APIResponse, test } from '@playwright/test';
 import { logger, isEnabled } from '../../config/logger';
 
 export abstract class BaseRequest {
@@ -20,14 +20,24 @@ export abstract class BaseRequest {
     return this.send('DELETE', url, () => this.request.delete(url));
   }
 
+  private testContext(): string {
+    try {
+      return `[${test.info().title}] `;
+    } catch {
+      return '[setup] ';
+    }
+  }
+
   private async send(
     method: string,
     url: string,
     fn: () => Promise<APIResponse>,
     body?: unknown
   ): Promise<APIResponse> {
-    logger.info(`→ [${method}] ${url}`);
-    if (body !== undefined) logger.debug(`   request body: ${JSON.stringify(body)}`);
+    const ctx = this.testContext();
+
+    logger.info(`${ctx}→ [${method}] ${url}`);
+    if (body !== undefined) logger.debug(`${ctx}   request body: ${JSON.stringify(body)}`);
 
     const start = Date.now();
     const response = await fn();
@@ -36,11 +46,11 @@ export abstract class BaseRequest {
 
     if (status >= 400) {
       const responseBody = await response.json().catch(() => '[unparseable]');
-      logger.error(`← [${status}] ${url}  (${duration}ms)  body: ${JSON.stringify(responseBody)}`);
+      logger.error(`${ctx}← [${status}] ${url}  (${duration}ms)  body: ${JSON.stringify(responseBody)}`);
     } else {
-      logger.info(`← [${status}] ${url}  (${duration}ms)`);
+      logger.info(`${ctx}← [${status}] ${url}  (${duration}ms)`);
       if (isEnabled('debug')) {
-        logger.debug(`   response body: ${JSON.stringify(await response.json().catch(() => null))}`);
+        logger.debug(`${ctx}   response body: ${JSON.stringify(await response.json().catch(() => null))}`);
       }
     }
 
