@@ -58,5 +58,12 @@ export default defineConfig({
       },
       dependencies: ['authentication'],
     },
+    {
+      name: 'api',
+      testDir: './tests/api',
+      use: {
+        baseURL: process.env.API_BASE_URL,
+      },
+    },
   ],
 });

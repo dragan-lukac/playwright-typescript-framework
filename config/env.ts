@@ -9,7 +9,7 @@ export function loadEnv(): void {
         console.error(`Missing env file: .env/.env.${ENV}`);
         process.exit(1);
     }
-    const required = ['BASE_URL', 'SAUCEDEMO_PASSWORD'];
+    const required = ['BASE_URL', 'SAUCEDEMO_PASSWORD', 'API_BASE_URL'];
     const missing = required.filter(key => !process.env[key]);
     if (missing.length) {
         console.error(`Missing env variables: ${missing.join(', ')}`);
