@@ -26,7 +26,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     actionTimeout: 3000,
-    headless: false,
+    headless: true,
     testIdAttribute: 'data-test'
   },
 
@@ -52,6 +52,7 @@ export default defineConfig({
     },
     {
       name: 'chromium',
+      testDir: './tests/ui',
       use: {
         ...devices['Desktop Chrome'],
         storageState: '.auth/user.json',
