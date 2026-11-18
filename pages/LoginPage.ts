@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { User } from '../data/Users';
 
 export class LoginPage {
@@ -29,5 +29,9 @@ export class LoginPage {
         await this.fillUsername(user.username);
         await this.fillPassword(user.password);
         await this.clickLoginButton();
+    }
+
+    async assertError(message: string) {
+        await expect(this.page.getByTestId('error')).toHaveText(message);
     }
 }

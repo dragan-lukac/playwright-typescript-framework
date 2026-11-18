@@ -1,112 +1,72 @@
-# Playwright Test Framework
+# Playwright + TypeScript Test Framework
 
-A production-grade Playwright + TypeScript UI test framework for [saucedemo.com](https://www.saucedemo.com), built with interview-ready architecture.
+[![Playwright Tests](https://github.com/dragan-lukac/playwright-typescript-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/dragan-lukac/playwright-typescript-framework/actions/workflows/ci.yml)
 
-## Tech stack
+An example test framework, built the way I build them for clients.
+It tests a demo shop ([saucedemo.com](https://www.saucedemo.com)) in the browser and a demo REST API
+([FakeRESTApi](https://fakerestapi.azurewebsites.net)).
 
-- [Playwright](https://playwright.dev/) `^1.60`
-- TypeScript (strict mode)
-- dotenv — multi-environment configuration
+**28 tests** · UI + API · Page Objects · fixtures · Docker · Allure report · GitHub Actions
 
-## Prerequisites
+## What it covers
 
-- Node.js 18+
-- npm
+| Area | Tests |
+|---|---|
+| Login | success, locked-out user, wrong password, empty username |
+| Inventory | add / remove items, sort by name and price |
+| Cart | open cart, item added, remove item, continue shopping |
+| Checkout | full order, cancel, order total |
+| Books API | GET list, GET by id, POST, PUT, DELETE |
+| Activities API | GET list, GET by id, POST, PUT, DELETE |
 
-## Setup
-
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Install Playwright browsers
-npx playwright install
-
-# 3. Create your local env file from the example
-cp .env/.env.dev.example .env/.env.dev
-# Edit .env/.env.dev and fill in SAUCEDEMO_PASSWORD
-```
-
-## Running tests
+## Quick start
 
 ```bash
-# Run full suite (clears allure-results, runs all tests)
+npm ci
+npx playwright install chromium
+cp .env/.env.dev.example .env/.env.dev   # set SAUCEDEMO_PASSWORD=secret_sauce (public demo password)
 npm test
-
-# Run UI tests only
-npm run test:ui
-
-# Run API tests only
-npm run test:api
-
-# Run against a different environment
-ENV=qa npm test
 ```
 
-## Allure report
-
-```bash
-# Generate and open report from last test run
-npm run report
-```
-
-Opens a local server — navigate to the printed URL in your browser.
-
-## Docker
-
-```bash
-# Run full suite in Docker (defaults to dev environment)
-npm run docker
-
-# Run against a different environment
-ENV=qa npm run docker
-```
-
-After the run, fix file ownership then open the report locally:
-
-```bash
-sudo chown -R $USER:$USER allure-results allure-report
-npm run report
-```
+| Command | What it does |
+|---|---|
+| `npm test` | all tests |
+| `npm run test:ui` | browser tests only |
+| `npm run test:api` | API tests only |
+| `ENV=qa npm test` | run against another environment |
+| `npm run report` | build and open the Allure report |
+| `npm run docker` | run everything in Docker |
 
 ## Project structure
 
 ```
-├── config/
-│   └── env.ts                  # Loads and validates env file on startup
-├── data/
-│   ├── Users.ts                # Typed user credentials (reads from env)
-│   └── SortType.ts             # Enum for inventory sort options
-├── fixtures/
-│   └── fixtures.ts             # Extends Playwright test with POM instances
-├── pages/
-│   ├── LoginPage.ts            # Login page interactions
-│   └── InventoryPage.ts        # Inventory page interactions and assertions
-├── tests/
-│   ├── auth.setup.ts           # Runs once: logs in, saves session to .auth/
-│   ├── login.spec.ts
-│   └── inventory.spec.ts
-├── .env/
-│   ├── .env.dev                # Gitignored — real credentials
-│   ├── .env.dev.example        # Committed — template for dev
-│   ├── .env.qa                 # Gitignored — real credentials
-│   └── .env.qa.example         # Committed — template for qa
-└── playwright.config.ts
+api/
+  requests/     raw HTTP calls (one class per resource)
+  services/     business-level API steps + response checks
+config/
+  env.ts        loads .env/.env.<ENV> and stops early if a variable is missing
+  auth.setup.ts logs in once and saves the session
+  global-setup.ts / global-teardown.ts / logger.ts
+data/           typed test data (users, books, activities, sort types)
+fixtures/       Playwright fixtures: page objects, API services, test data setup and cleanup
+pages/          Page Objects: Login, Inventory, Cart, Checkout
+tests/
+  ui/           browser tests
+  api/          API tests
+.github/workflows/ci.yml   runs on every push and pull request
 ```
 
-## Architecture decisions
+## Design choices
 
-### Page Object Model (POM)
-Each page is a class that owns its locators and raw interactions. Tests never reference locators or `page.*` directly — they call named methods. This means a DOM change only requires updating one file.
+- **Page Objects.** Tests never touch locators. A UI change means one file to update.
+- **Fixtures instead of `beforeEach`.** Setup and cleanup are reusable and always run, even when a test fails.
+- **Log in once.** `auth.setup.ts` saves the session. UI tests start already logged in, so they are fast.
+- **Request / service layers for API.** Raw HTTP stays in `requests/`. Tests read like business steps.
+- **Typed test data.** No magic strings in tests.
+- **Fail fast on config.** Missing env variables stop the run with a clear message, not a stack trace.
+- **CI ready.** GitHub Actions runs the suite, keeps the Allure report, and keeps traces when a test fails.
 
-### Fixtures
-Fixtures replace `beforeEach` for POM setup. They are composable, automatically scoped to the test, and teardown always runs even on failure. Defined in `fixtures/fixtures.ts`, used in every spec.
+## Need something like this for your app?
 
-### Authentication via storage state
-`auth.setup.ts` logs in once and saves the session to `.auth/user.json`. All other tests load that session — no repeated login overhead.
-
-### Multi-environment support
-Environment is selected via the `ENV` variable: `ENV=qa npx playwright test`. Each environment has its own `.env/.env.<name>` file. `config/env.ts` validates required variables at startup and exits cleanly (no stack trace) if anything is missing.
-
-### Test data as typed exports
-All test data lives in `data/` as typed TypeScript exports. No magic strings in tests or page objects.
+I build Playwright frameworks, API test suites and k6 load tests, and I fix flaky tests.
+Find me on Upwork: **Dragan L.**, Playwright & API Test Automation Architect.
