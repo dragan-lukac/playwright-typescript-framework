@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       CI: true
       ENV: dev
@@ -21,7 +21,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -35,7 +35,7 @@ jobs:
 
       - name: Generate Allure report
         if: always()
-        run: npx allure generate ./allure-results --output ./allure-report
+        run: npx allure generate ./allure-results --output ./allure-report || echo "no results"
 
       - name: Upload Allure report
         if: always()
